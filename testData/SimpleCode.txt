@@ -1,0 +1,4 @@
+X816 File(0,20)
+  PsiComment(X816TokenTypeCOMMENT)('; Commentaire')(0,13)
+  PsiWhiteSpace('\n')(13,14)
+  PsiElement(X816TokenTypeLABEL)('label:')(14,20)

@@ -1,0 +1,108 @@
+
+{
+  parserClass="net.ringum.parser.X816Parser"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="X816"
+  psiImplClassSuffix="Impl"
+  psiPackage="net.ringum.psi"
+  psiImplPackage="net.ringum.psi.impl"
+  psiImplUtilClass="net.ringum.psi.impl.X816PsiImplUtil"
+
+  elementTypeHolderClass="net.ringum.psi.X816Types"
+  elementTypeClass="net.ringum.X816ElementType"
+  tokenTypeClass="net.ringum.X816TokenType"
+}
+
+root ::= code_block
+fake_rule ::= MINUS | PLUS | RSHIFT | LSHIFT | MULT  | QUOTED_STRING
+
+code_block ::= (
+    label_def
+    | COMMENT
+    | NEWLINE
+    | assembler_directives
+    | macro_def
+    | macro_call
+    | instruction
+    | symbol_affectation
+    | braced_code_block
+    )*
+
+
+label_def ::= LABEL
+{ mixin="net.ringum.psi.impl.X816NamedElementImpl"
+  implements="net.ringum.psi.X816NamedElement" methods=[getName setName getNameIdentifier getPresentation]}
+
+braced_code_block ::= LBRACE code_block RBRACE
+
+opcode ::= OPCODE_WITH_SIZE | OPCODE_NAKED
+number ::= HEXNUMBER | BINARYNUMBER | DECNUMBER
+
+term ::= number | symbol_litteral
+
+symbol_litteral ::= SYMBOL
+{ mixin="net.ringum.psi.impl.X816ResolvableElementImpl"
+  implements="net.ringum.psi.X816ResolvableElement" methods=[]}
+
+symbol_affectation ::= SYMBOL EQUAL expr
+{ mixin="net.ringum.psi.impl.X816NamedElementImpl"
+  implements="net.ringum.psi.X816NamedElement" methods=[getName setName getNameIdentifier getPresentation]}
+
+none_opcode ::= opcode NEWLINE
+immediate_opcode ::= opcode SHARP expr
+direct_instruction ::= opcode expr
+direct_indexed_instruction ::= direct_instruction INDEX
+indirect_instruction_indexed ::= indirect_instruction INDEX
+indirect_instruction_long_indexed ::= indirect_instruction_long INDEX
+indirect_instruction ::= opcode LPAREN expr RPAREN
+indirect_instruction_long ::= opcode LBRAKET expr RBRAKET
+
+
+instruction ::= indirect_instruction_indexed
+     | indirect_instruction_long_indexed
+     | direct_indexed_instruction
+     | indirect_instruction_long
+     | indirect_instruction
+     | direct_instruction
+     | immediate_opcode
+     | none_opcode
+
+expr::= inner_expr | add_expr | factor | mul_expr | rshift_expr | lshift_expr | primary | term
+
+inner_expr  ::= factor add_expr*
+add_expr  ::= (PLUS | MINUS) factor
+factor   ::= primary mul_expr* rshift_expr* lshift_expr* and_expr*
+mul_expr  ::= MULT primary
+rshift_expr ::= RSHIFT primary
+lshift_expr ::= LSHIFT primary
+and_expr ::= AND primary
+primary  ::= LPAREN inner_expr RPAREN
+          | term
+
+expr_list ::= expr NEWLINE? COMMA NEWLINE? expr_list
+                 | expr
+
+macro_call ::= SYMBOL LPAREN expr_list RPAREN
+
+macro_def_args ::= SYMBOL COMMA macro_def_args
+                | SYMBOL
+
+macro_def ::= MACRO SYMBOL LPAREN macro_def_args RPAREN NEWLINE? braced_code_block
+
+data_bytes ::= DB expr_list
+data_word ::= DW expr_list
+table_declaration ::= TABLE QUOTED_STRING
+table_text ::= TEXT QUOTED_STRING
+code_position ::= STAREQ number
+pointer_declaration ::= POINTER expr
+
+include_code ::= INCLUDE QUOTED_STRING
+include_binary ::= INCBIN QUOTED_STRING
+
+assembler_directives ::= data_bytes | data_word | table_declaration | table_text | code_position | include_binary | include_code | pointer_declaration
+
+
+
+
