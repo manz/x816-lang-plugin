@@ -4,10 +4,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.openapi.util.IconLoader;
 import com.intellij.psi.PsiElement;
-import net.ringum.psi.X816LabelDef;
-import net.ringum.psi.X816NamedElement;
-import net.ringum.psi.X816SymbolAffectation;
-import net.ringum.psi.X816Types;
+import net.ringum.psi.*;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
@@ -31,24 +28,32 @@ public class X816PsiImplUtil {
         return null;
     }
 
-    public static PsiElement setName(X816LabelDef element, String newName) {
-//        ASTNode keyNode = element.getNode().findChildByType(X816Types.LABEL);
-//        if (keyNode != null) {
-//            X816LabelDef label = X816ElementFactory.createLabel(element.getProject(), newName + ":");
-//            ASTNode newKeyNode = label.getFirstChild().getNode();
-//            element.getNode().replaceChild(keyNode, newKeyNode);
-//        }
-        return element;
+    public static String getName(X816MacroDef macroDef) {
+        ASTNode symbol = macroDef.getNode().findChildByType(X816Types.SYMBOL);
+        if (symbol != null) {
+            return symbol.getText();
+        }
+        return null;
     }
 
-    public static PsiElement setName(X816SymbolAffectation element, String newName) {
-//        ASTNode keyNode = element.getNode().findChildByType(X816Types.LABEL);
-//        if (keyNode != null) {
-//            X816LabelDef label = X816ElementFactory.createLabel(element.getProject(), newName + ":");
-//            ASTNode newKeyNode = label.getFirstChild().getNode();
-//            element.getNode().replaceChild(keyNode, newKeyNode);
-//        }
-        return element;
+    public static String getName(X816MacroDefSymbol macroDefSymbol) {
+        return macroDefSymbol.getNode().getText();
+    }
+
+    public static String getName(X816NamedScopeDef namedScopeDef) {
+        ASTNode symbol = namedScopeDef.getNode().findChildByType(X816Types.SYMBOL);
+        if (symbol != null) {
+            return symbol.getText();
+        }
+        return null;
+    }
+
+    public static String getName(X816ForDirective forDirective) {
+        ASTNode symbol = forDirective.getNode().findChildByType(X816Types.SYMBOL);
+        if (symbol != null) {
+            return symbol.getText();
+        }
+        return null;
     }
 
     public static PsiElement getNameIdentifier(X816LabelDef element) {
@@ -69,6 +74,70 @@ public class X816PsiImplUtil {
         }
     }
 
+    public static PsiElement getNameIdentifier(X816MacroDef element) {
+        ASTNode keyNode = element.getNode().findChildByType(X816Types.SYMBOL);
+        if (keyNode != null) {
+            return keyNode.getPsi();
+        } else {
+            return null;
+        }
+    }
+
+    public static PsiElement getNameIdentifier(X816NamedScopeDef element) {
+        ASTNode keyNode = element.getNode().findChildByType(X816Types.SYMBOL);
+        if (keyNode != null) {
+            return keyNode.getPsi();
+        } else {
+            return null;
+        }
+    }
+
+
+    public static PsiElement getNameIdentifier(X816MacroDefSymbol element) {
+        ASTNode keyNode = element.getNode();
+        if (keyNode != null) {
+            return keyNode.getPsi();
+        } else {
+            return null;
+        }
+    }
+
+    public static PsiElement getNameIdentifier(X816ForDirective element) {
+        ASTNode keyNode = element.getNode().findChildByType(X816Types.SYMBOL);
+        if (keyNode != null) {
+            return keyNode.getPsi();
+        } else {
+            return null;
+        }
+    }
+
+    public static PsiElement setName(X816LabelDef element, String newName) {
+        return element;
+    }
+
+    public static PsiElement setName(X816SymbolAffectation element, String newName) {
+        return element;
+    }
+
+    public static PsiElement setName(X816MacroDef element, String newName) {
+        return element;
+    }
+
+    public static PsiElement setName(X816MacroDefSymbol element, String newName) {
+        return element;
+    }
+
+    public static PsiElement setName(X816NamedScopeDef element, String newName) {
+        return element;
+    }
+
+    public static PsiElement setName(X816ForDirective element, String newName) {
+        return element;
+    }
+
+
+
+    /** Go to contributor ?**/
     public static ItemPresentation getPresentation(final X816NamedElement element) {
         return new ItemPresentation() {
             @Nullable

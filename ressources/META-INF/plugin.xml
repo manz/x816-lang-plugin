@@ -1,0 +1,50 @@
+<idea-plugin>
+    <id>net.ringum.net.x816</id>
+    <name>x816 plugin</name>
+    <version>1.1.0</version>
+    <vendor email="manz@ringum.net" url="http://snes.ninja">Snes.Ninja</vendor>
+
+    <description><![CDATA[
+          Having fun with idea plugins, and 65c816 assembler
+    ]]></description>
+
+    <change-notes><![CDATA[
+          Adds NamedScopes.
+          Adds .dl parsing.
+          Adds named scope support.
+          Adds #if #else #endif and #for directives support.
+    ]]>
+    </change-notes>
+
+    <!-- please see http://confluence.jetbrains.com/display/IDEADEV/Build+Number+Ranges for description -->
+    <idea-version since-build="135" until-build="171.*"/>
+
+    <!-- please see http://confluence.jetbrains.com/display/IDEADEV/Plugin+Compatibility+with+IntelliJ+Platform+Products
+         on how to target different products -->
+
+    <depends>com.intellij.modules.lang</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <fileTypeFactory implementation="net.ringum.X816FileTypeFactory"/>
+        <lang.parserDefinition language="X816" implementationClass="net.ringum.X816ParserDefinition"/>
+        <lang.syntaxHighlighterFactory language="X816" implementationClass="net.ringum.X816SyntaxHighlighterFactory"/>
+        <lang.foldingBuilder language="X816" implementationClass="net.ringum.X816FoldingBuilder"/>
+        <lang.commenter language="X816" implementationClass="net.ringum.X816Commenter"/>
+        <psi.referenceContributor language="X816" implementation="net.ringum.X816ReferenceContributor"/>
+        <gotoSymbolContributor implementation="net.ringum.X816ChooseByNameContributor"/>
+        <colorSettingsPage implementation="net.ringum.X816ColorSettingsPage"/>
+    </extensions>
+
+    <application-components>
+        <!-- Add your application components here -->
+    </application-components>
+
+    <project-components>
+        <!-- Add your project components here -->
+    </project-components>
+
+    <actions>
+        <!-- Add your actions here -->
+    </actions>
+
+</idea-plugin>

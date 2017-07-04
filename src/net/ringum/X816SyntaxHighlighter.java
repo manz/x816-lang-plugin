@@ -43,10 +43,16 @@ public class X816SyntaxHighlighter extends SyntaxHighlighterBase {
             X816Types.MACRO,
             X816Types.DB,
             X816Types.DW,
+            X816Types.DL,
+            X816Types.NAMED_SCOPE,
             X816Types.POINTER,
             X816Types.STAREQ,
             X816Types.TABLE,
-            X816Types.TEXT
+            X816Types.TEXT,
+            X816Types.FOR,
+            X816Types.IF,
+            X816Types.ELSE,
+            X816Types.ENDIF
     );
 
     private static final TokenSet numbers = TokenSet.create(

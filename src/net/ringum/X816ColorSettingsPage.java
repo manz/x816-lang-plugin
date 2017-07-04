@@ -36,7 +36,7 @@ public class X816ColorSettingsPage implements ColorSettingsPage {
     @NotNull
     @Override
     public String getDemoText() {
-        return "; my nice commen\nt" +
+        return "; my nice comment\n" +
                 "var = 0x00\n"+
                 "start_dma_transfer:\n" +
                 "pha\n" +

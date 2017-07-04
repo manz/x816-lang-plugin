@@ -25,9 +25,11 @@ code_block ::= (
     | assembler_directives
     | macro_def
     | macro_call
+    | named_scope_def
     | instruction
     | symbol_affectation
     | braced_code_block
+    | preprocessor_like_directives
     )*
 
 
@@ -40,9 +42,13 @@ braced_code_block ::= LBRACE code_block RBRACE
 opcode ::= OPCODE_WITH_SIZE | OPCODE_NAKED
 number ::= HEXNUMBER | BINARYNUMBER | DECNUMBER
 
+symbol_litteral ::= SCOPE_SYMBOL | SYMBOL
+{ mixin="net.ringum.psi.impl.X816ResolvableElementImpl"
+  implements="net.ringum.psi.X816ResolvableElement" methods=[]}
+
 term ::= number | symbol_litteral
 
-symbol_litteral ::= SYMBOL
+symbol_strict_litteral ::= SYMBOL
 { mixin="net.ringum.psi.impl.X816ResolvableElementImpl"
   implements="net.ringum.psi.X816ResolvableElement" methods=[]}
 
@@ -82,17 +88,30 @@ primary  ::= LPAREN inner_expr RPAREN
           | term
 
 expr_list ::= expr NEWLINE? COMMA NEWLINE? expr_list
-                 | expr
+                 | expr?
 
-macro_call ::= SYMBOL LPAREN expr_list RPAREN
+macro_call ::= symbol_strict_litteral LPAREN expr_list? RPAREN
 
-macro_def_args ::= SYMBOL COMMA macro_def_args
-                | SYMBOL
+macro_def_symbol ::= SYMBOL
+{ mixin="net.ringum.psi.impl.X816NamedElementImpl"
+  implements="net.ringum.psi.X816NamedElement" methods=[getName setName getNameIdentifier getPresentation]}
 
-macro_def ::= MACRO SYMBOL LPAREN macro_def_args RPAREN NEWLINE? braced_code_block
+macro_def_args ::= macro_def_symbol COMMA macro_def_args
+                | macro_def_symbol
+
+named_scope_def ::= NAMED_SCOPE SYMBOL NEWLINE? braced_code_block
+{ mixin="net.ringum.psi.impl.X816NamedElementImpl"
+  implements="net.ringum.psi.X816NamedElement" methods=[getName setName getNameIdentifier getPresentation]}
+
+
+macro_def ::= MACRO SYMBOL LPAREN macro_def_args? RPAREN NEWLINE? braced_code_block
+{ mixin="net.ringum.psi.impl.X816NamedElementImpl"
+  implements="net.ringum.psi.X816NamedElement" methods=[getName setName getNameIdentifier getPresentation]}
 
 data_bytes ::= DB expr_list
 data_word ::= DW expr_list
+data_long ::= DL expr_list
+
 table_declaration ::= TABLE QUOTED_STRING
 table_text ::= TEXT QUOTED_STRING
 code_position ::= STAREQ number
@@ -101,7 +120,16 @@ pointer_declaration ::= POINTER expr
 include_code ::= INCLUDE QUOTED_STRING
 include_binary ::= INCBIN QUOTED_STRING
 
-assembler_directives ::= data_bytes | data_word | table_declaration | table_text | code_position | include_binary | include_code | pointer_declaration
+assembler_directives ::= data_bytes | data_word | data_long | table_declaration | table_text | code_position | include_binary | include_code | pointer_declaration
+
+if_directive ::= IF SYMBOL NEWLINE? braced_code_block NEWLINE? ELSE NEWLINE? braced_code_block NEWLINE? ENDIF
+    | IF SYMBOL NEWLINE? braced_code_block NEWLINE? ENDIF
+
+for_directive ::= FOR SYMBOL expr expr NEWLINE? braced_code_block
+{ mixin="net.ringum.psi.impl.X816NamedElementImpl"
+  implements="net.ringum.psi.X816NamedElement" methods=[getName setName getNameIdentifier getPresentation]}
+
+preprocessor_like_directives ::= if_directive | for_directive
 
 
 
