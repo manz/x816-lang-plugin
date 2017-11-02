@@ -64,9 +64,12 @@ indirect_instruction_indexed ::= indirect_instruction INDEX
 indirect_instruction_long_indexed ::= indirect_instruction_long INDEX
 indirect_instruction ::= opcode LPAREN expr RPAREN
 indirect_instruction_long ::= opcode LBRAKET expr RBRAKET
+dp_or_sr_indirect_indexed ::= opcode LPAREN expr INDEX RPAREN
+stack_indexed_indirect_indexed ::= opcode LPAREN expr INDEX RPAREN INDEX
 
-
-instruction ::= indirect_instruction_indexed
+instruction ::= stack_indexed_indirect_indexed
+     | dp_or_sr_indirect_indexed
+     | indirect_instruction_indexed
      | indirect_instruction_long_indexed
      | direct_indexed_instruction
      | indirect_instruction_long
