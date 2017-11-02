@@ -29,9 +29,9 @@ RBRAKET=\]
 SHARP=\#
 SCOPE_SYMBOL=[_a-zA-Z][_a-zA-Z0-9]*\.[_a-zA-Z][_a-zA-Z0-9]*
 SYMBOL=[_a-zA-Z][_a-zA-Z0-9]*
-OPCODE_NAKED=(cpx|php|trb|clc|dey|pea|pla|inx|plb|asl|ldy|bpl|tay|plx|rtl|txa|plp|pha|dex|dec|tdc|tsb|iny|sed|tcd|sty|wai|phx|bra|xba|txs|tax|ror|cmp|cpy|ply|xce|sbc|ldx|inc|tsc|stz|beq|stx|stp|adc|txy|rts|phy|bne|bit|tya|brk|sta|sei|sec|ora|bcc|tcs|bcs|rep|rti|and|tyx|nop|lda|rol|lsr|jmp|tsx|jsr|phb|sep|bmi|phd|pld|phk|plk|pei)
+OPCODE_NAKED=(cpx|php|trb|clc|dey|pea|pla|inx|plb|asl|ldy|bpl|tay|plx|rtl|txa|plp|pha|dex|dec|tdc|tsb|iny|sed|tcd|sty|wai|phx|bra|xba|txs|tax|ror|cmp|cpy|ply|xce|sbc|ldx|inc|tsc|stz|beq|stx|stp|adc|txy|rts|phy|bne|bit|tya|brk|sta|sei|sec|ora|bcc|tcs|bcs|rep|rti|and|tyx|nop|lda|rol|lsr|jmp|tsx|jsr|phb|sep|bmi|phd|pld|phk|plk|pei|eor)
 
-OPCODE_WITH_SIZE=(cpx|php|trb|clc|dey|pea|pla|inx|plb|asl|ldy|bpl|tay|plx|rtl|txa|plp|pha|dex|dec|tdc|tsb|iny|sed|tcd|sty|wai|phx|bra|xba|txs|tax|ror|cmp|cpy|ply|xce|sbc|ldx|inc|tsc|stz|beq|stx|stp|adc|txy|rts|phy|bne|bit|tya|brk|sta|sei|sec|ora|bcc|tcs|bcs|rep|rti|and|tyx|nop|lda|rol|lsr|jmp|tsx|jsr|phb|sep|bmi|phd|pld|phk|plk|pei)\.[bBwWlL]
+OPCODE_WITH_SIZE=(cpx|php|trb|clc|dey|pea|pla|inx|plb|asl|ldy|bpl|tay|plx|rtl|txa|plp|pha|dex|dec|tdc|tsb|iny|sed|tcd|sty|wai|phx|bra|xba|txs|tax|ror|cmp|cpy|ply|xce|sbc|ldx|inc|tsc|stz|beq|stx|stp|adc|txy|rts|phy|bne|bit|tya|brk|sta|sei|sec|ora|bcc|tcs|bcs|rep|rti|and|tyx|nop|lda|rol|lsr|jmp|tsx|jsr|phb|sep|bmi|phd|pld|phk|plk|pei|eor)\.[bBwWlL]
 
 NAMED_SCOPE=\.scope
 
